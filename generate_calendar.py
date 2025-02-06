@@ -4,18 +4,39 @@ from datetime import datetime, date
 from openpyxl import Workbook
 from openpyxl.styles import PatternFill, Font, Alignment, Border, Side
 from openpyxl.utils import get_column_letter
+import tkinter as tk
+from tkinter import filedialog
 
-# Configuration
-INPUT_FILE = 'Calendar_table.xlsx'  # Update to your input Excel file name
-OUTPUT_FILE = 'calendar_output_vertical.xlsx'  # Path for the output Excel file
+# Use tkinter to select input and output files
+root = tk.Tk()
+root.withdraw()
+
+INPUT_FILE = filedialog.askopenfilename(
+    title="Select the input Excel file",
+    filetypes=[("Excel Files", "*.xlsx")]
+)
+if not INPUT_FILE:
+    print("No input file selected.")
+    exit()
+
+OUTPUT_FILE = filedialog.asksaveasfilename(
+    title="Select the output Excel file",
+    defaultextension=".xlsx",
+    filetypes=[("Excel Files", "*.xlsx")]
+)
+if not OUTPUT_FILE:
+    print("No output file selected.")
+    exit()
+
+root.destroy()
 
 # Phase to Color Mapping (Added 'Pre-production')
 PHASE_COLORS = {
     'Development': 'FFFF00',         # Yellow
-    'Pre-pre-production': 'FFA500',  # Orange
-    'Pre-production': '83F28F',      # Light Green
-    'Shooting': '00C04B',            # Green
-    'Post production': '7C4700',     # Brown
+    'Pre-pre-production': 'FFA500',   # Orange
+    'Pre-production': '83F28F',        # Light Green
+    'Shooting': '00C04B',              # Green
+    'Post production': '7C4700',       # Brown
     # Add more phases as needed
 }
 
